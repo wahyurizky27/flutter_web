@@ -1,54 +1,151 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
+  @override
+  _LandingPageState createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  int selectedIndex = 0;
+
+  get index => null;
+  get title => null;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 100, vertical: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    Widget navItem({required String title, int? index}) {
+      return InkWell(
+        onTap: () {
+          setState(() {
+            selectedIndex = index!;
+          });
+        },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'logo1.png',
-              width: 72,
-              height: 40,
-            ),
-            Row(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Guild',
-                      style: GoogleFonts.poppins(
-                        fontSize: 18,
-                        color: Color(
-                          0xff1D1E3C,
-                        ),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Container(
-                      width: 66,
-                      height: 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color(0xffFE998D),
-                      ),
-                    ),
-                  ],
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                color: Color(
+                  0xff1D1E3C,
                 ),
-              ],
+                fontWeight:
+                    index == selectedIndex ? FontWeight.w500 : FontWeight.w300,
+              ),
             ),
-            Image.asset(
-              'btn_account.png',
-              width: 163,
-              height: 53,
+            Container(
+              width: 66,
+              height: 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: index == selectedIndex
+                    ? Color(0xffFE998D)
+                    : Color(0xffFFFFFF),
+              ),
             ),
           ],
         ),
+      );
+    }
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Image.asset(
+            'background.png',
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            fit: BoxFit.fill,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 100, vertical: 30),
+            child: Column(
+              children: [
+                // NOTES: NAVIGATION
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'logo1.png',
+                      width: 72,
+                      height: 40,
+                    ),
+                    Row(
+                      children: [
+                        navItem(
+                          title: 'Guides',
+                          index: 0,
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        navItem(
+                          title: 'Pricing',
+                          index: 1,
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        navItem(
+                          title: 'Team',
+                          index: 2,
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        navItem(
+                          title: 'Stories',
+                          index: 3,
+                        ),
+                      ],
+                    ),
+                    Image.asset(
+                      'btn_account.png',
+                      width: 163,
+                      height: 53,
+                    ),
+                  ],
+                ),
+
+                // NOTE : CONTENT
+                SizedBox(
+                  height: 76,
+                ),
+                Image.asset(
+                  'illustration.png',
+                  width: 550,
+                ),
+
+                // NOTE: FOOTER
+                SizedBox(
+                  height: 84,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'icon_scroll.png',
+                      width: 24,
+                    ),
+                    SizedBox(
+                      width: 13,
+                    ),
+                    Text(
+                      'Scroll to Learn More',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
